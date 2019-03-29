@@ -1,0 +1,353 @@
+     Assembly listing for: Division.mas
+                Assembled: Thu May 17 15:55:39 BST 2018
+
+         |                                                      ////////////////////////////////////////////////////////////////////////////////////////
+         |                                                      /      THIS PROGRAM HAS BEEN CREATED BY REECE DAVIES AND JAIME KERSHAW BROWN	       /
+         |                                                      ////////////////////////////////////////////////////////////////////////////////////////
+         |                                                      
+         |                                                      
+         |                                                      /There are three subroutines to this program: DivideMethod, DivideNegativeMethod and PrimeMethod.
+         |                                                      /Either the DivideMethod or DivideNegativeMethod will be called, depending on what is the value
+         |                                                      /of B. If B is positive; DivideMethod is called, and if B is negative; DivideNegativeMethod is called.
+         |                                                      /They both output the same values; however they will be dependent on what the user inputs.
+         |                                                      /Currently it will not output the correct answer if A is negative.
+         |                                                      
+         |                                                      /DivideMethod or DivideNegativeMethod is called first, followed by 5 outputs:
+         |                                                      /1.)The first input number (A)
+         |                                                      /2.)The second input number (B)
+         |                                                      /3.)The Divisor (C)
+         |                                                      /4.)The Remainder (change of A)
+         |                                                      /5.)A boolean for wehther the division is even or odd.
+         |                                                      /The Division boolean will either be a 1 or 0. 1 represents it is an even divison, whilst  0 represents it is NOT.
+         |                                                      
+         |                                                      /The program resets the variables and calls the PrimeMethod to check if input N is prime.
+         |                                                      /The PrimeMethod subroutine will divide N by B where initially B = 2. For each loop, B is incremented by 1
+         |                                                      /until such that B = (N/2) - 1. This is to improve efficiency of the program, as there are no factors above N/2.
+         |                                                      /It will then output 2 more numbers:
+         |                                                      /1.)The user's input (N)
+         |                                                      /2.)The prime boolean. It will either be a 1 or 0. 
+         |                                                      /1 represents the number is prime, whilst 0 represents it is divisible by a number(s).
+         |                                                      
+         |                                                      /The program outputs values outside of the subroutines to prevent too many outputs, and thus will prevent
+         |                                                      /confusion to the user. Especially considering that the PrimeMethod calls the DivideMethod ((N/2)-1) amount of times.
+         |                                                      /If we were were to print values from inside the subroutines, the user would most likely find it difficut to 
+         |                                                      /distinguish between the difference outputs.
+         |                                                      
+         |                                                      
+         |                                                      
+000 5000 |                       INPUT                          /Input for A
+001 202E |                       STORE A                        /Registers input A
+002 5000 |                       INPUT                          /Input for B
+003 202F |                       STORE B                        /Registers input B
+         |                                                      
+         |                                                      
+004 102E |                       LOAD A                         /Outputs the two inputs (A & B)
+005 6000 |                       OUTPUT                          
+006 102F |                       LOAD B                          
+007 6000 |                       OUTPUT                          
+         |                                                      
+         |                                                      
+008 102F |                       LOAD B                          
+009 8800 |                       SKIPCOND 800                    
+00A 900D |                       JUMP DivideByNegative           
+         |                                                      
+00B 0035 |                       JNS DivideMethod               /Calls Divide Method
+00C 900E |                       JUMP Skip                       
+         |                                                      
+         |                                                      
+         |                                                      	/----------------/
+         |                                                      	/DivideByNegative/
+         |                                                      	/----------------/
+         |                                                      
+00D 0065 |  DivideByNegative     JNS DivideNegativeMethod       /Calls Divide Negative Method
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/Skip  /
+         |                                                      	/------/
+         |                                                      
+00E 1030 |  Skip                 LOAD C                         /Loads C into AC, to print
+00F 6000 |                       OUTPUT                         /Prints value of C
+010 102E |                       LOAD A                         /Loads A into AC, to print
+011 6000 |                       OUTPUT                         /Prints value of A
+         |                                                      
+         |                                                      
+012 102E |                       LOAD A                         /Loads A into AC
+013 8400 |                       SKIPCOND 400                   /Checks if A = 0
+014 9018 |                       JUMP DivisionCheck             /If it is; add One to Division
+         |                                                      
+015 1033 |                       LOAD Division                  /Performs Division += 1;
+016 3032 |                       ADD One                         
+017 2033 |                       STORE Division                 /Stores Division back into AC
+         |                                                      
+         |                                                      
+         |                                                      	/-------------/
+         |                                                      	/DivisionCheck/
+         |                                                      	/-------------/
+         |                                                      
+018 1033 |  DivisionCheck        LOAD Division                   
+019 6000 |                       OUTPUT                          
+         |                                                      
+         |                                                      
+         |                                                      
+01A 102E |                       LOAD A                         /Returning A back to 0
+01B 402E |                       SUBT A                          
+01C 202E |                       STORE A                         
+         |                                                      
+01D 102F |                       LOAD B                         /Returning B back to 0
+01E 402F |                       SUBT B                         /And then making it 1 for the Prime Method
+01F 202F |                       STORE B                         
+020 102F |                       LOAD B                          
+021 3032 |                       ADD One                         
+022 202F |                       STORE B                         
+         |                                                      
+023 1030 |                       LOAD C                         /Returning C back to 0
+024 4030 |                       SUBT C                          
+025 2030 |                       STORE C                         
+         |                                                      
+026 5000 |                       INPUT                          /Input for prime number value
+027 2031 |                       STORE N                        /Stores value
+         |                                                      
+         |                                                      
+         |                                                      
+028 1031 |                       LOAD N                         /Outputs input N
+029 6000 |                       OUTPUT                          
+         |                                                      
+02A 004A |                       JNS PrimeMethod                /Calls Prime Method
+         |                                                      
+02B 1034 |                       LOAD Prime                     /Outputs the Prime boolean to show if N is prime
+02C 6000 |                       OUTPUT                          
+         |                                                      
+         |                                                      
+         |                                                      
+02D 7000 |                       HALT                           /Terminates the program
+         |                                                      
+02E 0000 |  A                    DEC 0                          /Number divided by B, and also represents the remainder
+02F 0000 |  B                    DEC 0                          /Number used to Divide A by
+030 0000 |  C                    DEC 0                          /Counter; to show how many times A is divisible by B
+031 0000 |  N                    DEC 0                          /Number checked if it is Prime
+032 0001 |  One                  DEC 1                          /Variable for adding a subtracting 1 to C (counter)
+033 0000 |  Division             DEC 0                          /Boolean for determining whether it is even division
+         |                                                      			/0 = Not Even Divison, 1 = Even division
+034 0001 |  Prime                DEC 1                          /Boolean for determining whether N is prime or not
+         |                                                      			/1 = Prime, 0 = Not Prime
+         |                                                      
+         |                                                      
+         |                                                      ////////////////////////////////////////////////////////////////////////////////////////
+         |                                                      
+035 0000 |  DivideMethod         HEX 0                          /Subroutine to divide one number by another
+         |                                                      
+         |                                                      
+036 102E |                       LOAD A                         /Loads A into AC
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/Point1/
+         |                                                      	/------/
+         |                                                      			/Subtracts B from A, and adds 1 to C.
+         |                                                      
+037 402F |  Point1               SUBT B                         /Performs A = A - B
+038 202E |                       STORE A                        /Stores answer of AC into A
+039 1030 |                       LOAD C                         /Loads C into AC
+03A 3032 |                       ADD One                        /Performs C = C + 1
+03B 2030 |                       STORE C                        /Stores answer of AC into C
+03C 102E |                       LOAD A                         /Loads A into AC
+         |                                                      
+         |                                                      			/Jump conditions for the value of AC.
+         |                                                      			/Done to prevent jumpin to end without finishing
+         |                                                      			/number of divisions properly.
+         |                                                      
+03D 8800 |                       SKIPCOND 800                   /Skips 'Jump Point2' if AC > 0
+03E 9041 |                       JUMP Point2                    /Jumps to Point2 if AC <= 0
+         |                                                      
+03F 8400 |                       SKIPCOND 400                   /Skips 'Jump Point1' if AC = 0
+040 9037 |                       JUMP Point1                    /Jumps to Point1 if AC > 0
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/Point2/
+         |                                                      	/------/
+         |                                                      			/Checks if AC < 0. If it is, the program will add B to A, and
+         |                                                      			/add 1 to C. To ensure the outputs are not negative.
+         |                                                      
+041 8000 |  Point2               SKIPCOND 000                   /Skips 'Jump Point3' if AC < 0
+042 9049 |                       JUMP Point3                    /Jumps to Point3 if AC 
+         |                                                      
+043 102E |                       LOAD A                         /Loads A into AC
+044 302F |                       ADD B                          /Performs A = A + B
+045 202E |                       STORE A                        /Stores answer of AC into A
+         |                                                      
+046 1030 |                       LOAD C                         /Loads C into AC
+047 4032 |                       SUBT One                       /Performs C = C - 1
+048 2030 |                       STORE C                        /Stores answer of AC into C
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/Point3/
+         |                                                      	/------/
+         |                                                      			/End of subroutine
+         |                                                      
+049 C035 |  Point3               JUMPI DivideMethod              
+         |                                                      
+         |                                                      ////////////////////////////////////////////////////////////////////////////////////////
+         |                                                      
+04A 0000 |  PrimeMethod          HEX 0                           
+         |                                                      
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/Start /
+         |                                                      	/------/
+         |                                                      
+04B 102F |  Start                LOAD B                         /Load B into AC
+04C 3032 |                       ADD One                        /Increment B by 1
+04D 202F |                       STORE B                        /Store contents of AC into B
+         |                                                      
+         |                                                      
+04E 102E |                       LOAD A                         /Returning A back to 0
+04F 402E |                       SUBT A                          
+050 202E |                       STORE A                         
+         |                                                      
+051 1030 |                       LOAD C                         /Returning C back to 0
+052 4030 |                       SUBT C                          
+053 2030 |                       STORE C                         
+         |                                                      
+         |                                                      
+054 1031 |                       LOAD N                         /Returning A back to original value, using N
+055 202E |                       STORE A                         
+         |                                                      
+         |                                                      
+056 0035 |                       JNS DivideMethod               /Calls divideMethod
+         |                                                      
+         |                                                      
+057 102E |                       LOAD A                         /Checks if A = 0
+058 8400 |                       SKIPCOND 400                   /If it is, it means A is not prime, and breaks from loop
+059 905E |                       JUMP Middle                    /If it is not, it skips break
+         |                                                      
+         |                                                      
+05A 1034 |                       LOAD Prime                     /Adds 1 to prime counter and breaks from the loop
+05B 4032 |                       SUBT One                        
+05C 2034 |                       STORE Prime                     
+05D 9064 |                       JUMP End                        
+         |                                                      
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/Middle/
+         |                                                      	/------/
+         |                                                      
+05E 1031 |  Middle               LOAD N                         /Performs N = N - (1 + B)
+05F 4032 |                       SUBT One                       /To check if B = N/2 - 1
+060 402F |                       SUBT B                          
+061 402F |                       SUBT B                          
+         |                                                      
+062 8400 |                       SKIPCOND 400                   /Checks if B = N/2 - 1. If it is; break from loop.
+063 904B |                       JUMP Start                     /If not, restart loop from 'Start'.
+         |                                                      
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/ End  /
+         |                                                      	/------/
+         |                                                      
+064 C04A |  End                  JUMPI PrimeMethod               
+         |                                                      
+         |                                                      
+         |                                                      ////////////////////////////////////////////////////////////////////////////////////////
+         |                                                      
+065 0000 |  DivideNegativeMethod HEX 0                          /Subroutine to divide one number by another
+         |                                                      
+         |                                                      
+066 102E |                       LOAD A                         /Loads A into AC
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/PointA/
+         |                                                      	/------/
+         |                                                      			/Add B from A, and subtracts 1 from C.
+         |                                                      
+067 302F |  PointA               ADD B                          /Performs A = A + B
+068 202E |                       STORE A                        /Stores answer of AC into A
+069 1030 |                       LOAD C                         /Loads C into AC
+06A 4032 |                       SUBT One                       /Performs C = C - 1
+06B 2030 |                       STORE C                        /Stores answer of AC into C
+06C 102E |                       LOAD A                         /Loads A into AC
+         |                                                      
+         |                                                      			/Jump conditions for the value of AC.
+         |                                                      			/Done to prevent jumpin to end without finishing
+         |                                                      			/number of divisions properly.
+         |                                                      
+06D 8800 |                       SKIPCOND 800                   /Skips 'Jump Point2' if AC > 0
+06E 9071 |                       JUMP PointB                    /Jumps to Point2 if AC <= 0
+         |                                                      
+06F 8400 |                       SKIPCOND 400                   /Skips 'Jump Point1' if AC = 0
+070 9067 |                       JUMP PointA                    /Jumps to Point1 if AC > 0
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/PointB/
+         |                                                      	/------/
+         |                                                      			/Checks if AC < 0. If it is, the program will add B to A, and
+         |                                                      			/add 1 to C. To ensure the outputs are not negative.
+         |                                                      
+071 8000 |  PointB               SKIPCOND 000                   /Skips 'Jump Point3' if AC < 0
+072 9079 |                       JUMP PointC                    /Jumps to Point3 if AC 
+         |                                                      
+073 102E |                       LOAD A                         /Loads A into AC
+074 402F |                       SUBT B                         /Performs A = A - B
+075 202E |                       STORE A                        /Stores answer of AC into A
+         |                                                      
+076 1030 |                       LOAD C                         /Loads C into AC
+077 3032 |                       ADD One                        /Performs C = C + 1
+078 2030 |                       STORE C                        /Stores answer of AC into C
+         |                                                      
+         |                                                      	/------/
+         |                                                      	/PointC/
+         |                                                      	/------/
+         |                                                      			/End of subroutine
+         |                                                      
+079 C065 |  PointC               JUMPI DivideNegativeMethod      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+         |                                                      
+
+Assembly successful.
+
+         SYMBOL TABLE
+         ----------------------------------------------------------------
+          Symbol               | Defined | References 
+         ----------------------+---------+-------------------------------
+          A                    |   02E   | 001, 004, 010, 012, 01A, 01B, 
+                               |         | 01C, 036, 038, 03C, 043, 045, 
+                               |         | 04E, 04F, 050, 055, 057, 066, 
+                               |         | 068, 06C, 073, 075
+          B                    |   02F   | 003, 006, 008, 01D, 01E, 01F, 
+                               |         | 020, 022, 037, 044, 04B, 04D, 
+                               |         | 060, 061, 067, 074
+          C                    |   030   | 00E, 023, 024, 025, 039, 03B, 
+                               |         | 046, 048, 051, 052, 053, 069, 
+                               |         | 06B, 076, 078
+          DivideByNegative     |   00D   | 00A
+          DivideMethod         |   035   | 00B, 049, 056
+          DivideNegativeMethod |   065   | 00D, 079
+          Division             |   033   | 015, 017, 018
+          DivisionCheck        |   018   | 014
+          End                  |   064   | 05D
+          Middle               |   05E   | 059
+          N                    |   031   | 027, 028, 054, 05E
+          One                  |   032   | 016, 021, 03A, 047, 04C, 05B, 
+                               |         | 05F, 06A, 077
+          Point1               |   037   | 040
+          Point2               |   041   | 03E
+          Point3               |   049   | 042
+          PointA               |   067   | 070
+          PointB               |   071   | 06E
+          PointC               |   079   | 072
+          Prime                |   034   | 02B, 05A, 05C
+          PrimeMethod          |   04A   | 02A, 064
+          Skip                 |   00E   | 00C
+          Start                |   04B   | 063
+         ----------------------------------------------------------------
+
+

@@ -1,0 +1,310 @@
+////////////////////////////////////////////////////////////////////////////////////////
+/      THIS PROGRAM HAS BEEN CREATED BY REECE DAVIES AND JAIME KERSHAW BROWN	       /
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+/There are three subroutines to this program: DivideMethod, DivideNegativeMethod and PrimeMethod.
+/Either the DivideMethod or DivideNegativeMethod will be called, depending on what is the value
+/of B. If B is positive; DivideMethod is called, and if B is negative; DivideNegativeMethod is called.
+/They both output the same values; however they will be dependent on what the user inputs.
+/Currently it will not output the correct answer if A is negative.
+
+/DivideMethod or DivideNegativeMethod is called first, followed by 5 outputs:
+/1.)The first input number (A)
+/2.)The second input number (B)
+/3.)The Divisor (C)
+/4.)The Remainder (change of A)
+/5.)A boolean for wehther the division is even or odd.
+/The Division boolean will either be a 1 or 0. 1 represents it is an even divison, whilst  0 represents it is NOT.
+
+/The program resets the variables and calls the PrimeMethod to check if input N is prime.
+/The PrimeMethod subroutine will divide N by B where initially B = 2. For each loop, B is incremented by 1
+/until such that B = (N/2) - 1. This is to improve efficiency of the program, as there are no factors above N/2.
+/It will then output 2 more numbers:
+/1.)The user's input (N)
+/2.)The prime boolean. It will either be a 1 or 0. 
+/1 represents the number is prime, whilst 0 represents it is divisible by a number(s).
+
+/The program outputs values outside of the subroutines to prevent too many outputs, and thus will prevent
+/confusion to the user. Especially considering that the PrimeMethod calls the DivideMethod ((N/2)-1) amount of times.
+/If we were were to print values from inside the subroutines, the user would most likely find it difficut to 
+/distinguish between the difference outputs.
+
+
+
+Input			/Input for A
+Store A			/Registers input A
+Input			/Input for B
+Store B			/Registers input B
+
+
+Load A			/Outputs the two inputs (A & B)
+Output A
+Load B
+Output B
+
+
+Load B
+Skipcond 800
+Jump DivideByNegative
+
+JNS DivideMethod	/Calls Divide Method
+Jump Skip
+
+
+	/----------------/
+	/DivideByNegative/
+	/----------------/
+
+DivideByNegative, JNS DivideNegativeMethod	/Calls Divide Negative Method
+
+	/------/
+	/Skip  /
+	/------/
+
+Skip, Load C			/Loads C into AC, to print
+Output C		/Prints value of C
+Load A			/Loads A into AC, to print
+Output A		/Prints value of A
+
+
+Load A			/Loads A into AC
+Skipcond 400		/Checks if A = 0
+Jump DivisionCheck	/If it is; add One to Division
+
+Load Division		/Performs Division += 1;
+Add One
+Store Division		/Stores Division back into AC
+
+
+	/-------------/
+	/DivisionCheck/
+	/-------------/
+
+DivisionCheck, Load Division
+Output Division
+
+
+
+Load A			/Returning A back to 0
+Subt A
+Store A
+
+Load B			/Returning B back to 0
+Subt B			/And then making it 1 for the Prime Method
+Store B
+Load B
+Add One
+Store B
+
+Load C			/Returning C back to 0
+Subt C
+Store C
+
+Input			/Input for prime number value
+Store N			/Stores value
+
+
+
+Load N			/Outputs input N
+Output N
+
+JNS PrimeMethod		/Calls Prime Method
+
+Load Prime		/Outputs the Prime boolean to show if N is prime
+Output Prime
+
+
+
+Halt			/Terminates the program
+
+A,   DEC         0	/Number divided by B, and also represents the remainder
+B,   DEC         0	/Number used to Divide A by
+C,   DEC         0	/Counter; to show how many times A is divisible by B
+N,   DEC	 0	/Number checked if it is Prime
+One, DEC         1	/Variable for adding a subtracting 1 to C (counter)
+Division, DEC	 0	/Boolean for determining whether it is even division
+			/0 = Not Even Divison, 1 = Even division
+Prime, DEC	 1	/Boolean for determining whether N is prime or not
+			/1 = Prime, 0 = Not Prime
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+DivideMethod, HEX 0     /Subroutine to divide one number by another
+
+
+Load A			/Loads A into AC
+
+	/------/
+	/Point1/
+	/------/
+			/Subtracts B from A, and adds 1 to C.
+
+Point1, Subt B		/Performs A = A - B
+Store A			/Stores answer of AC into A
+Load C			/Loads C into AC
+Add One			/Performs C = C + 1
+Store C			/Stores answer of AC into C
+Load A			/Loads A into AC
+
+			/Jump conditions for the value of AC.
+			/Done to prevent jumpin to end without finishing
+			/number of divisions properly.
+
+Skipcond 800		/Skips 'Jump Point2' if AC > 0
+Jump Point2		/Jumps to Point2 if AC <= 0
+
+Skipcond 400		/Skips 'Jump Point1' if AC = 0
+Jump Point1		/Jumps to Point1 if AC > 0
+
+	/------/
+	/Point2/
+	/------/
+			/Checks if AC < 0. If it is, the program will add B to A, and
+			/add 1 to C. To ensure the outputs are not negative.
+
+Point2, Skipcond 000	/Skips 'Jump Point3' if AC < 0
+Jump Point3		/Jumps to Point3 if AC 
+
+Load A			/Loads A into AC
+Add B			/Performs A = A + B
+Store A			/Stores answer of AC into A
+
+Load C			/Loads C into AC
+Subt One		/Performs C = C - 1
+Store C			/Stores answer of AC into C
+
+	/------/
+	/Point3/
+	/------/
+			/End of subroutine
+
+Point3, JumpI DivideMethod
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+PrimeMethod, HEX 0
+
+
+	/------/
+	/Start /
+	/------/
+
+Start, Load B		/Load B into AC
+Add One			/Increment B by 1
+Store B			/Store contents of AC into B
+
+
+Load A			/Returning A back to 0
+Subt A
+Store A
+
+Load C			/Returning C back to 0
+Subt C
+Store C
+
+
+Load N			/Returning A back to original value, using N
+Store A
+
+
+JNS DivideMethod	/Calls divideMethod
+
+
+Load A			/Checks if A = 0
+Skipcond 400		/If it is, it means A is not prime, and breaks from loop
+Jump Middle		/If it is not, it skips break
+
+
+Load Prime		/Adds 1 to prime counter and breaks from the loop
+Subt One
+Store Prime
+Jump End
+
+
+	/------/
+	/Middle/
+	/------/
+
+Middle, Load N		/Performs N = N - (1 + B)
+Subt One		/To check if B = N/2 - 1
+Subt B
+Subt B
+
+Skipcond 400		/Checks if B = N/2 - 1. If it is; break from loop.
+Jump Start		/If not, restart loop from 'Start'.
+
+
+	/------/
+	/ End  /
+	/------/
+
+End, JumpI PrimeMethod
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+DivideNegativeMethod, HEX 0     /Subroutine to divide one number by another
+
+
+Load A			/Loads A into AC
+
+	/------/
+	/PointA/
+	/------/
+			/Add B from A, and subtracts 1 from C.
+
+PointA, Add B		/Performs A = A + B
+Store A			/Stores answer of AC into A
+Load C			/Loads C into AC
+Subt One		/Performs C = C - 1
+Store C			/Stores answer of AC into C
+Load A			/Loads A into AC
+
+			/Jump conditions for the value of AC.
+			/Done to prevent jumpin to end without finishing
+			/number of divisions properly.
+
+Skipcond 800		/Skips 'Jump Point2' if AC > 0
+Jump PointB		/Jumps to Point2 if AC <= 0
+
+Skipcond 400		/Skips 'Jump Point1' if AC = 0
+Jump PointA		/Jumps to Point1 if AC > 0
+
+	/------/
+	/PointB/
+	/------/
+			/Checks if AC < 0. If it is, the program will add B to A, and
+			/add 1 to C. To ensure the outputs are not negative.
+
+PointB, Skipcond 000	/Skips 'Jump Point3' if AC < 0
+Jump PointC		/Jumps to Point3 if AC 
+
+Load A			/Loads A into AC
+Subt B			/Performs A = A - B
+Store A			/Stores answer of AC into A
+
+Load C			/Loads C into AC
+Add One			/Performs C = C + 1
+Store C			/Stores answer of AC into C
+
+	/------/
+	/PointC/
+	/------/
+			/End of subroutine
+
+PointC, JumpI DivideNegativeMethod
+
+
+
+
+
+
+
+
+
+
+
+
+
